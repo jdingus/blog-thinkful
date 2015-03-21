@@ -39,10 +39,18 @@ def post_id_get(id):
     return render_template("id_post.html", post=post)	
 	
 @app.route("/post/<int:id>/edit", methods=["GET"])
-def post_id_edit_get(id):
+def edit_post_get(id):
     post = session.query(Post).filter_by(id=id).first()
+    print post.title, '**', post.content
     return render_template("edit_post.html", post=post)	
-	
+
+@app.route("/post/<int:id>/edit", methods=["POST"])
+def edit_post_post(id):
+    post = session.query(Post).filter_by(id=id).first()	
+    post.title = request.form["title"]
+    post.content = request.form["content"]
+    session.commit()
+    return redirect(url_for("posts"))	
 	
 @app.route("/post/add", methods=["GET"])
 def add_post_get():
