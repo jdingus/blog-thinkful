@@ -41,7 +41,6 @@ def post_id_get(id):
 @app.route("/post/<int:id>/edit", methods=["GET"])
 def edit_post_get(id):
     post = session.query(Post).filter_by(id=id).first()
-    print post.title, '**', post.content
     return render_template("edit_post.html", post=post)	
 
 @app.route("/post/<int:id>/edit", methods=["POST"])
