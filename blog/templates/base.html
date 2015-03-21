@@ -21,6 +21,7 @@
     </head>
 
     <body>
+			
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -42,5 +43,14 @@
         <div class="container">
             {% block content %}{% endblock %}
         </div>
-    </body>
+			
+			<script>
+				$('#confirm-delete').on('show.bs.modal', function(e) {
+					$(this).find('.btn-ok').attr('href', $(e.relatedTarget).attr('href'));
+
+					$('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+				})
+			</script>
+    
+		</body>
 </html>
