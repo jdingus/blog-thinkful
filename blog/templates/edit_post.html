@@ -5,6 +5,26 @@
     Edit Post
 </h1>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Deleting: {{post.title }}</h4>
+      </div>
+      <div class="modal-body">
+        Confirm post deletion
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <a href="/post/{{post.id}}/delete" class="btn btn-danger" >Delete Post</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
 <form role="form" method="POST">
     <div class="form-group">
         <label for="title">Title</label>
@@ -15,25 +35,8 @@
         <textarea class="form-control" id="content" name="content" rows="20" required>{{post.content}}</textarea>
     </div>
 		<button type="submit" class="btn btn-default">Submit</button>
-		<a href="/post/10/delete" data-toggle="modal" data-target="#confirm-delete"><button type="button" class="btn btn-default data-dismiss="modal"> Delete Post </button> </a>
+		<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal"> Delete Post </a>
 </form>
 			
-<!-- 			MODAL POPUP DIV START -->
-			<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                CONFIRM POST DELETE
-            </div>
-            <div class="modal-body">
-                All changes will be lost
-            </div>
-								<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-										<a class="btn btn-danger btn-ok">Delete</a>
-								</div>
-						</div>
-				</div>
-		</div>
-			<!-- 			MODAL POPUP DIV END -->
+
 {% endblock %}

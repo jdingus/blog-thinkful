@@ -5,7 +5,11 @@ from database import session
 from models import Post
 
 import mistune
-	
+
+@app.route("/modal")
+def modal():
+    return render_template("modal.html")	
+
 @app.route("/")
 @app.route("/page/<int:page>")
 def posts(page=1, paginate_by=10):
@@ -62,5 +66,12 @@ def add_post_post():
         content=mistune.markdown(request.form["content"]),
     )
     session.add(post)
+    session.commit()
+    return redirect(url_for("posts"))
+	
+@app.route("/post/<int:id>/delete", methods=["GET"])
+def delete_post_post(id):
+    post = session.query(Post).filter_by(id=id).first()	
+    session.delete(post)
     session.commit()
     return redirect(url_for("posts"))

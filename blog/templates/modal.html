@@ -37,7 +37,34 @@
         </div>
 
         <div class="container">
-            {% block content %}{% endblock %}
+            
+					<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" hyperlink="/" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+					
+					
+					
+					
         </div>
 			
         <!-- JavaScript -->
@@ -45,7 +72,19 @@
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 				<!-- Bootstrap -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+			  <!-- Bootstrap Confirmation -->
+  			<script src="{{ url_for('static', filename='js/bootstrap-confirmation.js') }}"></script>
+  			<script>$('[data-toggle="confirmation"]').confirmation()</script>
 
 					  			
 		</body>
 </html>
+
+
+
+
+
+
+
+
+
