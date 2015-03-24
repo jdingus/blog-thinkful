@@ -6,7 +6,7 @@ from models import Post, User
 
 import mistune
 	
-from flask.ext.login import login_user, login_required, logout_user
+from flask.ext.login import login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash
 
 @app.route("/")
@@ -65,6 +65,7 @@ def add_post_post():
     post = Post(
         title=request.form["title"],
         content=mistune.markdown(request.form["content"]),
+			  author = current_user
     )
     session.add(post)
     session.commit()
