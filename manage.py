@@ -1,15 +1,25 @@
 import os
 from flask.ext.script import Manager
+from flask.ext.migrate import Migrate, MigrateCommand
 
 from blog import app
 
 manager = Manager(app)
 
 from blog.models import Post, User
-from blog.database import session
+from blog.database import session, Base
 
 from getpass import getpass
 from werkzeug.security import generate_password_hash
+
+# Alembic Database Migrations
+class DB(object):
+    def __init__(self, metadata):
+        self.metadata = metadata
+
+migrate = Migrate(app, DB(Base.metadata))
+# Add all the commands in the Migrate // ie-->  python manage.py db init
+manager.add_command('db', MigrateCommand)
 
 @manager.command
 def adduser():
