@@ -30,5 +30,28 @@ class TestViews(unittest.TestCase):
         # Remove the tables and their data from the database
         Base.metadata.drop_all(engine)
 
+    def simulate_login(self):
+      with self.client.session_transaction() as http_session:
+        http_session["user_id"] = str(self.user.id)
+        http_session["_fresh"] = True
+
+    def testAddPost(self):
+        self.simulate_login()
+
+        response = self.client.post("/post/add", data={
+            "title": "Test Post",
+            "content": "Test content"
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, "/")
+        posts = session.query(models.Post).all()
+        self.assertEqual(len(posts), 1)
+
+        post = posts[0]
+        self.assertEqual(post.title, "Test Post")
+        self.assertEqual(post.content, "<p>Test content</p>\n")
+        self.assertEqual(post.author, self.user)
+
 if __name__ == "__main__":
     unittest.main()
