@@ -28,9 +28,9 @@ class TestViews(unittest.TestCase):
         session.add(self.user)
         session.commit()
 
-        self.process = multiprocessing.Process(target=app.run)
+        self.process = multiprocessing.Process(target=app.run(port=8080,host='0.0.0.0'))
         self.process.start()
-        time.sleep(3)
+        time.sleep(1)
 
 
     def tearDown(self):
