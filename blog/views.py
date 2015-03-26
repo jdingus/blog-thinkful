@@ -42,11 +42,13 @@ def post_id_get(id):
     return render_template("id_post.html", post=post)	
 	
 @app.route("/post/<int:id>/edit", methods=["GET"])
+@login_required
 def edit_post_get(id):
     post = session.query(Post).filter_by(id=id).first()
     return render_template("edit_post.html", post=post)	
 
 @app.route("/post/<int:id>/edit", methods=["POST"])
+@login_required
 def edit_post_post(id):
     post = session.query(Post).filter_by(id=id).first()	
     post.title = request.form["title"]
