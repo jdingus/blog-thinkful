@@ -28,15 +28,14 @@ class TestViews(unittest.TestCase):
         session.add(self.user)
         session.commit()
         port = int(os.environ.get('PORT', 8080))
-        self.process = multiprocessing.Process(target=app.run(host='0.0.0.0',port=port))
-# 				target=app.run, kwargs = {'host':'0.0.0.0','port':8080}
+        self.process = multiprocessing.Process(target=app.run, kwargs = {'host':'0.0.0.0','port':8080})
         self.process.start()
         time.sleep(1)
 
     def tearDown(self):
         """ Test teardown """
         # Remove the tables and their data from the database
-#         self.process.terminate()
+        self.process.terminate()
         Base.metadata.drop_all(engine)
         self.browser.quit()
 
