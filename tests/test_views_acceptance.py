@@ -19,7 +19,7 @@ Tests to Perform:
 	Make sure all the routes don't return "404"
 X	Adding a Post
 X	Deleting a Post
-	Editing/Updating a Post
+X	Editing/Updating a Post
 	Logout Function working
 '''
 
@@ -99,6 +99,13 @@ class TestViews(unittest.TestCase):
         self.assertEqual(self.browser.status_code.is_success(),True)
         self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
 
+    def testLogout(self):
+      self.testLoginCorrect()
+      self.browser.visit("http://0.0.0.0:8080/logout")
+      self.assertEqual(self.browser.status_code.is_success(),True)
+      self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+      self.assertTrue(self.browser.find_link_by_href('/login'))
+      
     def testLoginIncorrect(self):
         self.browser.visit("http://0.0.0.0:8080/login")
         self.browser.fill("email", "bob@example.com")
