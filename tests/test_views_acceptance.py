@@ -14,6 +14,15 @@ from blog import app
 from blog import models
 from blog.database import Base, engine, session
 
+'''
+Tests to Perform:
+	Make sure all the routes don't return "404"
+X	Adding a Post
+X	Deleting a Post
+	Editing/Updating a Post
+	Logout Function working
+'''
+
 class TestViews(unittest.TestCase):
     def setUp(self):
         """ Test setup """
@@ -38,13 +47,56 @@ class TestViews(unittest.TestCase):
         self.process.terminate()
         Base.metadata.drop_all(engine)
         self.browser.quit()
+    
+    def login(self):
+        """ Log into the site """
+        self.browser.visit("http://0.0.0.0:8080/login")
+        self.browser.fill("email", "alice@example.com")
+        self.browser.fill("password", "test")
+        button = self.browser.find_by_css("button[type=submit]")
+        button.click()
+        self.assertEqual(self.browser.status_code.is_success(),True)
+        self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+        
+    def testAddPost(self):
+        self.login()
+        print 'We are logged in:'
+        self.browser.visit("http://0.0.0.0:8080/post/add")
+        self.browser.fill("title", "This is an example post")
+        self.browser.fill("content", "test")
+        button = self.browser.find_by_css("button[type=submit]")
+        button.click()
+        self.assertEqual(self.browser.status_code.is_success(),True)
+        self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+        self.assertEqual(self.browser.is_text_present('This is an example post'),True)
 
+    def testDeletePost(self):
+      self.login()
+      self.testAddPost()
+      self.browser.visit("http://0.0.0.0:8080/post/1/delete")
+      self.browser.visit("http://0.0.0.0:8080/")      
+      self.assertEqual(self.browser.is_text_present('This is an example post'),False)
+
+    def testUpdatePost(self):
+      self.login()
+      self.testAddPost()
+      self.browser.visit("http://0.0.0.0:8080/post/1/edit")
+      self.browser.fill("title", "This is an example post UPDATED TITLE")
+      self.browser.fill("content", "test NEW CONTENT")
+      button = self.browser.find_by_css("button[type=submit]")
+      button.click()
+      self.assertEqual(self.browser.status_code.is_success(),True)
+      self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+      self.assertEqual(self.browser.is_text_present('UPDATED TITLE'),True)
+      self.assertEqual(self.browser.is_text_present('NEW CONTENT'),True)
+        
     def testLoginCorrect(self):
         self.browser.visit("http://0.0.0.0:8080/login")
         self.browser.fill("email", "alice@example.com")
         self.browser.fill("password", "test")
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
+        self.assertEqual(self.browser.status_code.is_success(),True)
         self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
 
     def testLoginIncorrect(self):
@@ -53,6 +105,7 @@ class TestViews(unittest.TestCase):
         self.browser.fill("password", "test")
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
+        self.assertEqual(self.browser.status_code.is_success(),True)
         self.assertEqual(self.browser.url, "http://0.0.0.0:8080/login")
 
 if __name__ == "__main__":
